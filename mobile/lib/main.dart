@@ -67,15 +67,7 @@ class _GeneradorPreguntasState extends State<GeneradorPreguntas> {
   List<Question> _preguntas = [];
   bool _isLoading = false;
   int _score = 0;
-/*
-@override
-Widget build(BuildContext context) {
-  // Aquí va el cuerpo visual de tu pantalla
-  return Scaffold(
-    appBar: AppBar(title: const Text('Generador de Preguntas')),
-    body: const Center(child: Text('Contenido del quiz')),
-  );
-}*/
+
   void _LimpiarCampos() {
     setState(() {
       _preguntas = [];
