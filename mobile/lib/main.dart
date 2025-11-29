@@ -88,9 +88,9 @@ class _GeneradorPreguntasState extends State<GeneradorPreguntas> {
     super.dispose();
   }
 
-  // Guardar respuesta selección, no evalúa.
+  // Guardar respuesta seleccionada, no evalua.
   void _seleccionarRespuesta(int index, String selectedKey) {
-    // Solo se permite seleccionar si la pregunta aún no ha sido evaluada
+    // Solo se permite seleccionar si la pregunta aun no ha sido evaluada
     if (_preguntas[index].evaluada) return;
 
     setState(() {
@@ -99,7 +99,7 @@ class _GeneradorPreguntasState extends State<GeneradorPreguntas> {
     });
   }
 
-  // Evalúar las preguntas
+  // Evaluar las preguntas
   void _evaluarQuiz() {
     bool allSelected = _preguntas.every((q) => q.respuestaSeleccionada != null);
     if (!allSelected) {
@@ -130,7 +130,6 @@ class _GeneradorPreguntasState extends State<GeneradorPreguntas> {
     }
   }
 
-  // Función que llamada a la API y Parsing (Sin Cambios Esenciales)
   Future<void> _guardarPuntajeEnServidor(
       String nombreJugador, int puntaje) async {
     try {
@@ -203,7 +202,6 @@ class _GeneradorPreguntasState extends State<GeneradorPreguntas> {
         final data = json.decode(respuestas.body);
         final String generatedText = data['generatedText'];
 
-        // Lógica de Parsing (sin cambios)
         List<Question> parsedQuestions = [];
         final List<String> questionBlocks = generatedText.split('---');
 
@@ -297,10 +295,10 @@ class _GeneradorPreguntasState extends State<GeneradorPreguntas> {
           'GENERADOR DE QUIZZES',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 18, // Un poco más pequeño
+            fontSize: 18, 
             fontWeight: FontWeight.w600,
-            letterSpacing: 2.5, // El secreto: espaciado entre letras
-            fontFamily: 'MyFont', // O la fuente que prefieras
+            letterSpacing: 2.5, 
+            fontFamily: 'MyFont', 
           ),
         ),
       ),
