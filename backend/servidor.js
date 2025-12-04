@@ -11,14 +11,13 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// --- Conexión a la BD ---
 const mongoBD = process.env.MONGO;
 
 mongoose.connect(mongoBD)
   .then(() => console.log('✅ Conexión a MongoDB exitosa'))
   .catch(err => console.error('Error al conectar a MongoDB:', err));
 
-// --- Modelo de Datos ---
+
 const scoreSchema = new mongoose.Schema({
   nombreJugador: { 
     type: String,
@@ -37,12 +36,12 @@ const scoreSchema = new mongoose.Schema({
 
 const Score = mongoose.model('Puntajes', scoreSchema);
 
-// 1. Ruta de prueba (Home)
+
 app.get('/', (req, res) => {
   res.send('¡El servidor de puntajes está funcionando!');
 });
 
-// 2. Obtener puntajes
+// Obtener puntajes
 app.get('/api/scores', async (req, res) => {
   try {
     const scores = await Score.find().sort({ puntaje: -1 });
@@ -52,7 +51,7 @@ app.get('/api/scores', async (req, res) => {
   }
 });
 
-// 3. Guardar puntaje
+// Guardar puntaje
 app.post('/api/puntajes', async (req, res) => {
   console.log('✅ ¡Datos recibidos desde Flutter!:', req.body);
   const { nombreJugador, puntaje } = req.body;
@@ -74,7 +73,7 @@ app.post('/api/puntajes', async (req, res) => {
   }
 });
 
-// 4. Generar Quiz con Gemini (MOVIDO AQUÍ ARRIBA)
+
 app.post('/api/generar-quiz', async (req, res) => {
   const { tema } = req.body;
 
@@ -82,7 +81,6 @@ app.post('/api/generar-quiz', async (req, res) => {
     return res.status(400).json({ message: 'El tema es requerido' });
   }
 
-  // Prompt optimizado
   const prompt = `
       Genera 5 preguntas de opción múltiple sobre el tema: "${tema}". 
       Cada pregunta debe ser corta y entendible.
@@ -134,12 +132,12 @@ app.post('/api/generar-quiz', async (req, res) => {
       contents: [{ parts: [{ text: prompt }] }]
     });
 
-    // Validar que la respuesta de Google sea correcta antes de enviarla
+    // Validar que la respuesta sea correcta
     if (response.data && response.data.candidates && response.data.candidates.length > 0) {
         const text = response.data.candidates[0].content.parts[0].text;
         res.json({ generatedText: text });
     } else {
-        throw new Error("Estructura de respuesta de Gemini inesperada");
+        throw new Error("Estructura de respuesta incorrectas");
     }
 
   } catch (error) {
